@@ -16,10 +16,10 @@ state = State(fps=Config.FPS, window_sec=Config.WINDOWS_SEC)
 
 
 @app.route("/")
-@app.route("/demo")
-@app.route("/demo.html")
+@app.route("/index")
+@app.route("/index.html")
 def index():
-    response = app.make_response(render_template("demo.html"))
+    response = app.make_response(render_template("index.html"))
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     return response
 

@@ -41,17 +41,24 @@
     <script src="/assets/js/system-log-module.js" defer></script>
     <script src="/assets/js/fatigue-alert-module.js" defer></script>
     <script src="/assets/js/realtime-chart-module.js" defer></script>
-    <script src="/assets/js/dashboard-module.js" defer></script>
+    <script src="/assets/js/panel-module.js" defer></script>
     <script src="/assets/js/data-export-module.js" defer></script>
   </head>
 
   <body>
     <main class="app">
+      <nav class="app-nav">
+        <div class="nav-lft">
+          <a class="user-select-none cursor-pointer" href="/index">Demo</a>
+          <a class="user-select-none cursor-pointer">Doc</a>
+        </div>
+        <div class="nav-rgt">
+          <a class=".user-select-none cursor-pointer">Login</a>
+        </div>
+      </nav>
+
       <div class="app-content">
         <div class="fd-display">
-          <div class="layout-title">
-            <span>Monitor</span>
-          </div>
           <div class="fd-video">
             <video
               id="camera_source"
@@ -339,10 +346,6 @@
         </div>
 
         <div class="fd-control">
-          <div class="layout-title">
-            <span>Dashboard</span>
-          </div>
-
           <div class="control-panel">
             <div id="fatigue-layout">
               <div class="info-card info-card--summary">
@@ -567,7 +570,7 @@
           <div class="footer-site">
             <span>Site</span>
             <div class="footer-site-links">
-              <a href="https://face-detec.app/demo.html">demo</a>
+              <a href="/index">Demo</a>
             </div>
           </div>
         </div>

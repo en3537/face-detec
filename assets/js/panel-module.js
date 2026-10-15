@@ -1,4 +1,3 @@
-// ===== Dashboard data =====
 function formatSeconds(value, digits = 1) {
   if (
     value === null ||
