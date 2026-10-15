@@ -41,6 +41,7 @@
     <script src="/assets/js/system-log-module.js" defer></script>
     <script src="/assets/js/fatigue-alert-module.js" defer></script>
     <script src="/assets/js/realtime-chart-module.js" defer></script>
+    <script src="/assets/js/tablist-module.js" defer></script>
     <script src="/assets/js/panel-module.js" defer></script>
     <script src="/assets/js/data-export-module.js" defer></script>
   </head>
@@ -53,7 +54,7 @@
           <a class="user-select-none cursor-pointer">Doc</a>
         </div>
         <div class="nav-rgt">
-          <a class=".user-select-none cursor-pointer">Login</a>
+          <a class="user-select-none cursor-pointer">Login</a>
         </div>
       </nav>
 
@@ -274,37 +275,83 @@
             </button>
           </div>
 
-          <div class="fd-chart">
-            <div class="layout-title">
-              <span>Chart</span>
+          <div class="fd-tablist">
+            <div class="fd-tabs" role="tablist" aria-label="資料檢視">
+              <button
+                type="button"
+                role="tab"
+                id="tab-chart"
+                aria-selected="true"
+                aria-controls="p-chart"
+              >
+                Chart
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="tab-logs"
+                aria-selected="false"
+                aria-controls="p-logs"
+                tabindex="-1"
+              >
+                Logs
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="tab-export"
+                aria-selected="false"
+                aria-controls="p-export"
+                tabindex="-1"
+              >
+                Export Data
+              </button>
             </div>
 
-            <div class="rt-chart-layout user-select-none">
-              <div class="rt-chart">
-                <span>EAR</span>
-                <canvas id="ear-chart"></canvas>
-              </div>
-              <div class="rt-chart">
-                <span>MAR</span>
-                <canvas id="mar-chart"></canvas>
+            <div
+              class="fd-chart"
+              id="p-chart"
+              role="tabpanel"
+              aria-labelledby="tab-chart"
+            >
+              <div class="rt-chart-layout user-select-none">
+                <div class="rt-chart">
+                  <span>EAR</span>
+                  <div class="rt-chart-canvas">
+                    <canvas id="ear-chart" aria-label="EAR 即時圖表"></canvas>
+                  </div>
+                </div>
+                <div class="rt-chart">
+                  <span>MAR</span>
+                  <div class="rt-chart-canvas">
+                    <canvas id="mar-chart" aria-label="MAR 即時圖表"></canvas>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="logs-panel">
-            <div class="fd-logs">
-              <div class="layout-title">
-                <span>Logs</span>
-              </div>
-              <div class="log-area">
-                <div class="log-scroll"></div>
-              </div>
+            <div
+              class="fd-logs"
+              id="p-logs"
+              role="tabpanel"
+              aria-labelledby="tab-logs"
+              hidden
+            >
+              <div
+                class="log-scroll"
+                role="log"
+                aria-live="off"
+                tabindex="0"
+              ></div>
             </div>
 
-            <div class="fd-export">
-              <div class="layout-title">
-                <span>Export Data</span>
-              </div>
+            <div
+              class="fd-export"
+              id="p-export"
+              role="tabpanel"
+              aria-labelledby="tab-export"
+              hidden
+            >
               <button
                 type="button"
                 class="log-export-btn"
@@ -316,7 +363,7 @@
                   height="14"
                   viewBox="0 0 24 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <path
                     d="M12 3V15"
@@ -338,16 +385,16 @@
                     stroke-linecap="round"
                   />
                 </svg>
-
                 <span>Download</span>
               </button>
+              <div class="hint">需要改 datetime，刪除 session-id 欄位</div>
             </div>
           </div>
         </div>
 
         <div class="fd-control">
           <div class="control-panel">
-            <div id="fatigue-layout">
+            <div id="fatigue-sum">
               <div class="info-card info-card--summary">
                 <span class="info-title">狀態</span>
                 <h3 class="fatigue-status-safe" id="fatigue-status">正常</h3>
@@ -490,49 +537,163 @@
               </label>
             </div>
 
-            <div class="info-card">
-              <span class="info-title">Eye</span>
-              <div class="setting-option-state">
-                <strong>EAR (眼部縱横比)</strong>
-                <span id="ear-info">--</span>
+            <section
+              class="info-card info-card--collapse is-open"
+              data-summary="ear-info"
+            >
+              <button
+                type="button"
+                class="info-card-header"
+                id="eye-header"
+                aria-expanded="true"
+                aria-controls="eye-body"
+              >
+                <span class="info-title">Eye</span>
+                <span class="info-card-summary" aria-hidden="true">--</span>
+                <svg
+                  class="info-card-chevron"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <div
+                class="info-card-body"
+                id="eye-body"
+                role="region"
+                aria-labelledby="eye-header"
+              >
+                <div class="info-card-inner">
+                  <div class="setting-option-state">
+                    <strong>EAR<small>眼部縱横比</small></strong>
+                    <span id="ear-info">--</span>
+                  </div>
+                  <div class="setting-option-state">
+                    <strong>Blink Times<small>眨眼次數</small></strong>
+                    <span id="blink-times-info">--</span>
+                  </div>
+                  <div class="setting-option-state">
+                    <strong
+                      >Eye Closure Duration<small>闔眼持續時間</small></strong
+                    >
+                    <span id="eye-closure-dur-info">--</span>
+                  </div>
+                  <div class="setting-option-state">
+                    <strong>PERCLOS<small>眼瞼閉合率</small></strong>
+                    <span id="perclos-info">--</span>
+                  </div>
+                </div>
               </div>
-              <div class="setting-option-state">
-                <strong>Blink Times (眨眼次數)</strong>
-                <span id="blink-times-info">--</span>
-              </div>
-              <div class="setting-option-state">
-                <strong>Eye Closure Duration (闔眼持續時間)</strong>
-                <span id="eye-closure-dur-info">--</span>
-              </div>
-              <div class="setting-option-state">
-                <strong>PERCLOS (眼瞼閉合率)</strong>
-                <span id="perclos-info">--</span>
-              </div>
-            </div>
+            </section>
 
-            <div class="info-card">
-              <span class="info-title">Mouth</span>
-              <div class="setting-option-state">
-                <strong>MAR (嘴部縱横比)</strong>
-                <span id="mar-info">--</span>
+            <section
+              class="info-card info-card--collapse is-open"
+              data-summary="mar-info"
+            >
+              <button
+                type="button"
+                class="info-card-header"
+                id="mouth-header"
+                aria-expanded="true"
+                aria-controls="mouth-body"
+              >
+                <span class="info-title">Mouth</span>
+                <span class="info-card-summary" aria-hidden="true">--</span>
+                <svg
+                  class="info-card-chevron"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <div
+                class="info-card-body"
+                id="mouth-body"
+                role="region"
+                aria-labelledby="mouth-header"
+              >
+                <div class="info-card-inner">
+                  <div class="setting-option-state">
+                    <strong>MAR<small>嘴部縱横比</small></strong>
+                    <span id="mar-info">--</span>
+                  </div>
+                  <div class="setting-option-state">
+                    <strong>Yawn Count<small>打哈欠次數</small></strong>
+                    <span id="yawn-times-info">--</span>
+                  </div>
+                  <div class="setting-option-state">
+                    <strong>Yawn Duration<small>打哈欠持續時間</small></strong>
+                    <span id="yawn-dur-info">--</span>
+                  </div>
+                </div>
               </div>
-              <div class="setting-option-state">
-                <strong>Yawn Count (打哈欠次數)</strong>
-                <span id="yawn-times-info">--</span>
-              </div>
-              <div class="setting-option-state">
-                <strong>Yawn Duration (打哈欠持續時間)</strong>
-                <span id="yawn-dur-info">--</span>
-              </div>
-            </div>
+            </section>
 
-            <div class="info-card disabled">
-              <span class="info-title">Head</span>
-              <div class="setting-option-state">
-                <strong>Pitch (頭部傾斜率)</strong>
-                <span id="pitch-info">--</span>
+            <section
+              class="info-card info-card--collapse disabled"
+              data-summary="pitch-info"
+            >
+              <button
+                type="button"
+                class="info-card-header"
+                id="head-header"
+                aria-expanded="false"
+                aria-controls="head-body"
+                disabled
+              >
+                <span class="info-title">Head</span>
+                <span class="info-card-summary" aria-hidden="true">--</span>
+                <svg
+                  class="info-card-chevron"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <div
+                class="info-card-body"
+                id="head-body"
+                role="region"
+                aria-labelledby="head-header"
+              >
+                <div class="info-card-inner">
+                  <div class="setting-option-state">
+                    <strong>Pitch<small>頭部傾斜率</small></strong>
+                    <span id="pitch-info">--</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </div>

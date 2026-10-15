@@ -79,6 +79,13 @@
   cursor: pointer;
 }
 
+/* [提示] 需要修改或備註 */
+.hint {
+  font-family: var(--font-regular);
+  font-size: 13px;
+  color: #fffcb4;
+}
+
 body {
   display: flex;
   width: 100%;
@@ -678,7 +685,7 @@ body {
   gap: 24px;
 }
 
-#fatigue-layout {
+#fatigue-sum {
   display: flex;
   width: 100%;
   height: auto;
@@ -922,32 +929,116 @@ body {
   scale: 0.99;
 }
 
+.info-card--collapse {
+  padding: 0;
+  gap: 0;
+}
+
+.info-card-header {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  align-items: center;
+  gap: 12px;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.info-card-header:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.info-card-header:focus-visible {
+  outline: 1px solid var(--color-border-focus);
+  outline-offset: -2px;
+}
+
+.info-card-header .info-title {
+  flex: 1;
+  color: var(--color-text-primary);
+  font-family: var(--font-medium);
+  font-size: 13px;
+}
+
+.info-card-summary {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  transition: opacity 0.2s ease;
+}
+
+.info-card--collapse.is-open .info-card-summary {
+  opacity: 0;
+}
+
+.info-card-chevron {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  transition: transform 0.25s ease;
+}
+
+.info-card--collapse.is-open .info-card-chevron {
+  transform: rotate(180deg);
+}
+
+.info-card-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.info-card--collapse.is-open .info-card-body {
+  grid-template-rows: 1fr;
+}
+
+.info-card-inner {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  padding: 0 12px;
+  overflow: hidden;
+}
+
 .setting-option-state {
   display: flex;
   width: 100%;
   height: auto;
   justify-content: space-between;
-  overflow-x: auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border);
 }
 
 .setting-option-state > strong {
   display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 4px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
   color: #fff;
   font-family: var(--font-regular);
   font-size: 13px;
+  font-weight: normal;
+  white-space: normal;
+}
+
+.setting-option-state > strong small {
+  color: var(--color-text-secondary);
+  font-size: 11px;
 }
 
 .setting-option-state > span {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: 4px;
+  flex-shrink: 0;
   color: var(--color-text-primary);
-  font-family: var(--font-regular);
+  font-family: var(--font-mono);
   font-size: 13px;
+  font-variant-numeric: tabular-nums;
 }
 
 .fd-funcButton {
@@ -1004,13 +1095,79 @@ body {
   color: #fff;
 }
 
-.fd-chart {
+/* =========================================
+   Tabs: Chart / Logs / Export Data
+   ========================================= */
+
+.fd-tablist {
   display: flex;
   width: 100%;
   min-width: 0;
-  height: auto;
   flex-direction: column;
-  padding: 25px 0;
+  margin: 25px 0;
+}
+
+.fd-tabs {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+  scrollbar-width: none;
+  user-select: none;
+}
+
+.fd-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.fd-tabs [role="tab"] {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 16px;
+  margin-bottom: -1px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-medium);
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.fd-tabs [role="tab"]:hover {
+  color: #fff;
+}
+
+.fd-tabs [role="tab"][aria-selected="true"] {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.fd-tabs [role="tab"]:focus-visible {
+  outline: 1px solid var(--color-border-focus);
+  outline-offset: -2px;
+}
+
+.fd-tablist [role="tabpanel"] {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  padding-top: 16px;
+}
+
+.fd-tablist [role="tabpanel"][hidden] {
+  display: none !important;
+}
+
+.fd-tablist .fd-export {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
 }
 
 .rt-chart-layout {
@@ -1049,50 +1206,27 @@ body {
   line-height: 14px;
 }
 
-.rt-chart canvas {
-  display: block;
-  width: 100% !important;
-  height: 140px !important;
+.rt-chart-canvas {
+  position: relative;
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
   min-height: 0;
-  max-height: none;
-  flex: 1 1 auto;
 }
 
-.logs-panel {
-  display: flex;
-  width: 100%;
-  height: auto;
-  flex-direction: row;
-  gap: 24px;
-}
-
-.fd-logs {
-  display: flex;
-  width: 70%;
-  height: auto;
-  flex-direction: column;
-  margin: 25px 0;
-}
-
-.log-area {
-  display: flex;
-  width: 100%;
-  height: 90px;
-  box-sizing: border-box;
-  padding: 0;
-  border: 1px solid var(--color-border);
-  background-color: #000;
-  overflow: hidden;
-  white-space: nowrap;
+.rt-chart-canvas canvas {
+  display: block;
 }
 
 .log-scroll {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 120px;
   box-sizing: border-box;
   padding: 8px 10px 8px 12px;
+  border: 1px solid var(--color-border);
+  background-color: #000;
   overflow-x: hidden;
   overflow-y: auto;
   gap: 8px;
@@ -1148,14 +1282,6 @@ body {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
-}
-
-.fd-export {
-  display: flex;
-  width: 30%;
-  height: auto;
-  flex-direction: column;
-  margin: 25px 0;
 }
 
 .log-export-btn {
@@ -1224,35 +1350,44 @@ body {
   .app-content {
     width: 100%;
     flex-direction: column;
+    gap: 0;
   }
 
   .app-nav a {
     font-size: 14px;
   }
 
-  .fd-display {
-    width: 100%;
-    max-width: none;
+  .fd-display,
+  .fd-control,
+  .control-panel {
+    display: contents;
   }
 
   .fd-video {
+    order: 1;
     width: 100%;
     max-width: none;
   }
 
-  .fd-control {
-    width: 100%;
-    max-width: none;
-    flex: none;
+  .fd-state {
+    order: 2;
   }
 
-  .logs-panel {
-    flex-direction: column;
+  .fd-funcButton {
+    order: 3;
   }
 
-  .fd-logs,
-  .fd-export {
-    width: 100%;
+  #fatigue-sum {
+    order: 4;
+  }
+
+  .fd-tablist {
+    order: 5;
+  }
+
+  .control-panel > .info-card {
+    order: 6;
+    margin-bottom: 24px;
   }
 }
 
@@ -1273,7 +1408,7 @@ body {
     width: 100%;
     min-width: 0;
     flex-direction: column;
-    gap: 24px;
+    gap: 0;
   }
 
   .footer-top {
@@ -1376,14 +1511,20 @@ body {
   }
 
   /* =========================
-     Charts
+     Tabs
      ========================= */
 
-  .fd-chart {
-    width: 100%;
-    min-width: 0;
-    padding: 16px 0;
+  .fd-tablist {
+    margin: 16px 0;
   }
+
+  .fd-tabs [role="tab"] {
+    padding: 0 16px;
+  }
+
+  /* =========================
+     Charts
+     ========================= */
 
   .rt-chart-layout {
     width: 100%;
@@ -1400,42 +1541,24 @@ body {
     max-height: 160px;
   }
 
-  .rt-chart canvas {
-    width: 100% !important;
-    height: 120px !important;
-  }
-
   /* =========================
      Logs
      ========================= */
 
-  .logs-panel {
-    width: 100%;
-    min-width: 0;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .fd-logs,
-  .fd-export {
-    width: 100%;
-    min-width: 0;
-    margin: 16px 0;
-  }
-
-  .log-area {
-    width: 100%;
-    height: 140px;
-  }
-
   .log-scroll {
     width: 100%;
     min-width: 0;
+    height: 120px;
   }
 
   /* =========================
-     Buttons
+     Export
      ========================= */
+
+  .fd-tablist .fd-export {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
   .log-export-btn {
     width: 100%;
