@@ -198,6 +198,16 @@
                         </label>
                       </div>
 
+                      <div class="hover-off setting-option">
+                        <span>Alert Sound</span>
+
+                        <label class="t-switch">
+                          <input type="checkbox" id="alert-toggle" checked />
+                          <span class="t-slider"></span>
+                        </label>
+                      </div>
+                      <div class="hint">尚未加入警告聲功能</div>
+
                       <!-- <div class="hover-off setting-option">
                         <span>Alert Sound</span>
 
@@ -387,9 +397,7 @@
                 </svg>
                 <span>下載</span>
               </button>
-              <div class="hint">
-                TODO: 需要改 datetime 欄位，刪除 session-id 欄位
-              </div>
+              <div class="hint">需要改 datetime 欄位，刪除 session-id 欄位</div>
             </div>
           </div>
         </div>
@@ -409,7 +417,10 @@
             </div>
 
             <div class="info-card--calibration info-card">
-              <span class="info-title">校準</span>
+              <span class="info-title"
+                >校準
+                <div class="hint">(偵測時才能啟用)</div></span
+              >
 
               <label
                 class="cali-baseline-option active user-select-none"
@@ -433,8 +444,8 @@
                   <div class="cali-option-right">
                     <svg
                       class="cali-chevron"
-                      width="14"
-                      height="14"
+                      width="100%"
+                      height="100%"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -490,8 +501,8 @@
                   <div class="cali-option-right">
                     <svg
                       class="cali-chevron"
-                      width="14"
-                      height="14"
+                      width="100%"
+                      height="100%"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -535,9 +546,7 @@
                       開始校準
                     </button>
 
-                    <div class="hint">
-                      TODO: 校準功能待改善，定時 / 即時校準
-                    </div>
+                    <div class="hint">校準功能待改善，定時 / 即時校準</div>
                   </div>
                 </div>
               </label>

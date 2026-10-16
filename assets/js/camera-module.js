@@ -165,12 +165,6 @@ async function startBrowserCamera() {
   frameStamps.length = 0;
 
   runEdgeLoop(++loopToken);
-
-  console.log("[CAMERA] Capture started.");
-
-  if (typeof addSystemLog === "function") {
-    addSystemLog("[OK] Camera capture started", "success");
-  }
 }
 
 function stopCapture() {

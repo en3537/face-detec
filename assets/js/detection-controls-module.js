@@ -70,9 +70,7 @@ async function start_detection() {
       startCalibrationBtn.disabled = false;
     }
 
-    addSystemLog("[DETECTION] Started", "start");
-
-    console.log("[DETECTION] Started");
+    addSystemLog("[START] 偵測開始", "start");
   } catch (error) {
     console.error("[ERROR]", error);
     addSystemLog(`[ERROR] ${error.message}`, "error");
@@ -130,9 +128,7 @@ async function stop_detection() {
     stopCapture();
 
     addPauseLine();
-    addSystemLog("[DETECTION] Stopped", "stop");
-
-    console.log("[DETECTION] Stopped");
+    addSystemLog("[STOP] 偵測暫停", "stop");
   } catch (error) {
     console.error("[ERROR]", error);
     addSystemLog(`[ERROR] ${error.message}`, "error");
