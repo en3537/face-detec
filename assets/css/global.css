@@ -61,6 +61,8 @@
   --color-success: #4cd964;
 
   --color-overlay: rgba(0, 0, 0, 0.6);
+
+  --button-border-radius-pri: 4px;
 }
 
 .hidden {
@@ -549,7 +551,7 @@ body {
   background-color: transparent;
   height: 22px;
   padding: 4px 3px 4px 6px;
-  border-radius: 4px;
+  border-radius: var(--button-border-radius-pri);
 }
 
 .setting-option span {
@@ -697,6 +699,7 @@ body {
   height: auto;
   flex-direction: row;
   gap: 12px;
+  margin: 24px 0;
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -1063,7 +1066,7 @@ body {
   border: none;
   font-family: var(--font-medium);
   font-size: 14px;
-  border-radius: 2px;
+  border-radius: var(--button-border-radius-pri);
   line-height: 1;
   transition: all 0.25s ease;
   cursor: pointer;
@@ -1298,6 +1301,7 @@ body {
   height: 30px;
   padding: 0 10px;
   gap: 6px;
+  border-radius: var(--button-border-radius-pri);
   border: 1px solid var(--color-button-border);
   background-color: transparent;
   color: var(--color-text-secondary);
@@ -1310,10 +1314,6 @@ body {
 .log-export-btn:hover {
   color: #fff;
   border-color: var(--color-button-border-hover);
-}
-
-.log-export-btn:active {
-  scale: 0.99;
 }
 
 .log-export-btn svg {

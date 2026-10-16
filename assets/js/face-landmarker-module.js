@@ -24,7 +24,7 @@ function ensureEdge() {
     ]);
 
     if (typeof addSystemLog === "function") {
-      addSystemLog("[OK] Fatigue Detector module loaded", "success");
+      addSystemLog("[OK] 疲勞偵測模組載入", "success");
     }
 
     const { FaceLandmarker, FilesetResolver } = vision;
@@ -45,7 +45,7 @@ function ensureEdge() {
       landmarker = await create("GPU");
 
       if (typeof addSystemLog === "function") {
-        addSystemLog("[OK] MediaPipe GPU initialized", "success");
+        addSystemLog("[OK] MediaPipe GPU 初始化", "success");
       }
     } catch (error) {
       console.warn(
@@ -84,9 +84,9 @@ function ensureEdge() {
     });
 
     if (typeof addSystemLog === "function") {
-      addSystemLog("[OK] MediaPipe Face Landmarker initialized", "success");
+      addSystemLog("[OK] MediaPipe 模型載入", "success");
 
-      addSystemLog("[OK] Fatigue Detector initialized", "success");
+      addSystemLog("[OK] 疲勞偵測系統初始化", "success");
     }
   })();
 

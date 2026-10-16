@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("[EXPORT] button clicked");
 
     if (typeof addSystemLog === "function") {
-      addSystemLog("[EXPORT] Download Data", "start");
+      addSystemLog("[EXPORT] 下載資料", "start");
     }
 
     const detector = window.edgeDetector;

@@ -126,12 +126,12 @@ function startBrowserPreview() {
       const cameraName = videoTrack?.label || "Unknown camera";
 
       if (typeof addSystemLog === "function") {
-        addSystemLog(`[OK] Camera: ${cameraName}`, "success");
+        addSystemLog(`[OK] 鏡頭: ${cameraName}`, "success");
       }
     } catch (error) {
       stopBrowserCamera();
 
-      throw new Error(`Unable to start camera: ${describeCameraError(error)}`, {
+      throw new Error(`無法開啟鏡頭: ${describeCameraError(error)}`, {
         cause: error,
       });
     }
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCameraLayout();
 
   if (typeof addSystemLog === "function") {
-    addSystemLog("[OK] Camera module loaded", "success");
+    addSystemLog("[OK] 鏡頭模組載入", "success");
   }
 
   ensureEdge().catch((error) => {
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startBrowserPreview()
     .then(() => {
       if (typeof addSystemLog === "function") {
-        addSystemLog("[OK] Camera preview ready", "success");
+        addSystemLog("[OK] 鏡頭預覽", "success");
       }
     })
     .catch((error) => {
