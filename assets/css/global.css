@@ -381,6 +381,11 @@ body {
   pointer-events: none;
 }
 
+.fd-video video,
+.fd-video #landmark-overlay {
+  transform: scaleX(-1);
+}
+
 .fd-alert-overlay {
   position: absolute;
   top: 0;
