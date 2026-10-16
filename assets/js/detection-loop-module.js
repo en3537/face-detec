@@ -45,8 +45,6 @@ function processEdgeFrame() {
     return;
   }
 
-  // requestAnimationFrame 備援時，
-  // 同一幀不要重複偵測。
   if (cameraSource.currentTime === lastVideoTime) {
     return;
   }
@@ -54,6 +52,8 @@ function processEdgeFrame() {
   lastVideoTime = cameraSource.currentTime;
 
   const t0 = performance.now();
+  
+  detector.aspect = cameraSource.videoWidth / cameraSource.videoHeight;
 
   const result = landmarker.detectForVideo(cameraSource, t0);
 

@@ -337,22 +337,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  window.addEventListener("pagehide", () => {
-    window.edgeDetector?.cancelCalibration();
-  });
-
-  const detector = window.edgeDetector;
-  if (detector?.isCalibrated) {
-    statusText.textContent = "已校準";
-    if (baselineRadio) {
-      baselineRadio.disabled = false;
-      baselineRadio.dataset.wasCalibrated = "true";
-    }
-  }
 });
 
-// ===== Data reset =====
 document.addEventListener("DOMContentLoaded", () => {
   const resetBtns = [document.getElementById("reset-data-button")].filter(
     Boolean,

@@ -123,24 +123,6 @@ function startBrowserPreview() {
       await openCameraStream();
 
       const videoTrack = cameraStream.getVideoTracks()[0];
-
-      const cameraSettings = videoTrack?.getSettings?.() || {};
-
-      const resolution =
-        cameraSettings.width && cameraSettings.height
-          ? `${cameraSettings.width} × ${cameraSettings.height}`
-          : cameraSource.videoWidth && cameraSource.videoHeight
-            ? `${cameraSource.videoWidth} × ${cameraSource.videoHeight}`
-            : "--";
-
-      window.edgeStats.resolution = resolution;
-
-      const resolutionInfo = document.getElementById("resolution-info");
-
-      if (resolutionInfo) {
-        resolutionInfo.textContent = resolution;
-      }
-
       const cameraName = videoTrack?.label || "Unknown camera";
 
       if (typeof addSystemLog === "function") {

@@ -14,7 +14,7 @@ export class FatigueDetector {
     this.cfg = { ...(opts.config || {}) };
 
     if (!Object.keys(opts.config || {}).length) {
-      throw new Error("Python config is required");
+      throw new Error("Require config file.");
     }
     this.aspect = opts.aspect ?? 1;
     this.onAlert = opts.onAlert || null;
@@ -320,6 +320,12 @@ export class FatigueDetector {
     } else {
       this.faceCount = 0;
       this.leftEar = this.rightEar = this.ear = this.mar = null;
+      this.isEyeClosed = false;
+      this.eyeClosureStart = null;
+      this.eyeClosureDur = 0;
+      this.isYawning = false;
+      this.yawnStart = null;
+      this.yawnDur = 0;
     }
 
     this._log(

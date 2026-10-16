@@ -18,12 +18,6 @@ function updateCameraLayout() {
     container.style.aspectRatio = `${videoWidth} / ${videoHeight}`;
   }
 
-  container.style.width = "100%";
-
-  cameraSource.style.width = "100%";
-  cameraSource.style.height = "100%";
-  cameraSource.style.objectFit = "contain";
-
   drawLandmarks(window.__latestFaceLandmarks || []);
 }
 
@@ -32,7 +26,6 @@ function scheduleCameraLayoutUpdate() {
 
   requestAnimationFrame(() => {
     updateCameraLayout();
-    drawLandmarks(window.__latestFaceLandmarks || []);
   });
 }
 
@@ -72,8 +65,6 @@ function drawLandmarks(faces) {
     landmarkOverlay.height = canvasHeight;
   }
 
-  // Draw using CSS pixels while keeping the canvas sharp on HiDPI
-  // and during browser zoom.
   landmarkContext.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
 
   landmarkContext.clearRect(0, 0, cssWidth, cssHeight);
@@ -81,12 +72,6 @@ function drawLandmarks(faces) {
   const videoWidth = cameraSource.videoWidth;
   const videoHeight = cameraSource.videoHeight;
 
-  /*
-   * Match CSS object-fit: contain.
-   *
-   * The camera image keeps its native aspect ratio.
-   * Any unused area becomes letterboxing instead of stretching.
-   */
   const scale = Math.min(
     videoRect.width / videoWidth,
     videoRect.height / videoHeight,
@@ -137,8 +122,8 @@ function drawLandmarks(faces) {
 }
 
 function clearLandmarks() {
+  window.__latestFaceLandmarks = [];
   if (!landmarkOverlay || !landmarkContext) return;
-
   landmarkContext.clearRect(
     0,
     0,
